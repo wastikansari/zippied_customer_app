@@ -72,13 +72,17 @@ class _PhoneScreenState extends State<PhoneScreen> {
                 const Height(80),
                 Center(
                   child: HeadingText(
-                    text: "Spinovo",
+                    text: "Zippied",
                     size: 35,
                     color: AppColor.appbarColor,
                   ),
                 ),
                 const Height(20),
-                CustomText(text: 'Enter your mobile number to continue'),
+                CustomText(
+                  text: 'Login or Sign up to continue',
+                  size: 17,
+                  fontweights: FontWeight.w500,
+                ),
                 const Height(10),
                 Row(
                   children: [
@@ -117,7 +121,11 @@ class _PhoneScreenState extends State<PhoneScreen> {
                   ],
                 ),
                 const Height(15),
-                CustomText(text: 'We will send an OTP to verify your number'),
+                CustomText(
+                  text: 'We will send an OTP to verify your number',
+                  color: Colors.black54,
+                  size: 12,
+                ),
                 const Height(50),
                 ContinueButton(
                   text: 'Continue',
@@ -143,8 +151,8 @@ class _PhoneScreenState extends State<PhoneScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  const TermConditionsScreen()),
+                            builder: (context) => const TermConditionsScreen(),
+                          ),
                         );
                       },
                       child: CustomText(
@@ -164,8 +172,8 @@ class _PhoneScreenState extends State<PhoneScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  const PrivacyPolicyScreen()),
+                            builder: (context) => const PrivacyPolicyScreen(),
+                          ),
                         );
                       },
                       child: CustomText(

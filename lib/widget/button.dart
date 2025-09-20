@@ -19,7 +19,7 @@ class ContinueButton extends StatelessWidget {
     required this.text,
     required this.isValid,
     required this.onTap,
-    this.bgColor = const Color(0xFF33C362),
+    this.bgColor = const Color(0xFFE42033),
     this.border,
     this.textColor = Colors.white,
     this.isLoading = false,

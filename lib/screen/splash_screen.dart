@@ -41,8 +41,8 @@ class _SplashScreenState extends State<SplashScreen> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFF33C162),
-              Color(0xFF20783E),
+              Color(0xFFE42033),
+              Color.fromARGB(255, 169, 23, 38),
             ],
           ),
         ),
@@ -53,20 +53,22 @@ class _SplashScreenState extends State<SplashScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CustomText(
-                  text: 'Spinovo',
-                  color: Colors.white,
-                  size: 55,
-                  fontweights: FontWeight.bold,
-                ),
+                Image.asset("asset/logo/logo_icon.png", width: 200,),
+                // CustomText(
+                //   text: 'Zippied',
+                //   color: Colors.white,
+                //   size: 30,
+                //   fontweights: FontWeight.bold,
+                // ),
                 const Divider(
-                  thickness: 0.8,
-                  color: Color.fromARGB(119, 218, 218, 218),
+                  thickness: 0.9,
+                  color: Color.fromARGB(143, 218, 218, 218),
                 ),
                 CustomText(
-                  text: 'India\'s First Quick Laundry Service App',
+                  text: 'India\'s First Quick Service App',
+                  size: 15,
                   color: Colors.white,
-                  fontweights: FontWeight.w400,
+                  fontweights: FontWeight.w500,
                 ),
               ],
             ),
