@@ -1,4 +1,4 @@
-package com.example.zippied_app
+package com.zippied
 
 import io.flutter.embedding.android.FlutterActivity
 

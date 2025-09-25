@@ -18,8 +18,16 @@ class AppbarComponent extends StatelessWidget {
     return Container(
       height: 100,
       width: double.infinity,
-      decoration: BoxDecoration(
-        color: AppColor.appbarColor,
+     decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+     
+          colors: [
+            Colors.red,
+            const Color.fromARGB(255, 153, 0, 0),
+          ],
+        ),
       ),
       child: const Padding(
         padding: EdgeInsets.only(left: 13, right: 13, top: 30, bottom: 0),

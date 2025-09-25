@@ -6,13 +6,14 @@ import 'package:provider/provider.dart';
 import 'package:zippied_app/models/package_model.dart';
 import 'package:zippied_app/providers/package_provider.dart';
 import 'package:zippied_app/screen/checkout/package/package_checkout_screen.dart';
+import 'package:zippied_app/utiles/color.dart';
 import 'package:zippied_app/utiles/designe.dart';
 import 'package:zippied_app/widget/button.dart';
 import 'package:zippied_app/widget/size_box.dart';
 import 'package:zippied_app/widget/text_widget.dart';
 
-class SpinovoNowSection extends StatelessWidget {
-  const SpinovoNowSection({super.key});
+class QuickSection extends StatelessWidget {
+  const QuickSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +52,7 @@ class SpinovoNowSection extends StatelessWidget {
                   Row(
                     children: [
                       HeadingText(
-                        text: 'Spinovo Quick',
+                        text: 'Zippied Now',
                         size: 20,
                       ),
                       // CustomText(
@@ -63,14 +64,15 @@ class SpinovoNowSection extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 2),
-                        decoration: const BoxDecoration(
-                          color: Colors.pink,
+                        decoration: BoxDecoration(
+                          color: AppColor.primeColor,
+                          // color: Colors.pink,
                           borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(10),
                               topRight: Radius.circular(10)),
                         ),
                         child: CustomText(
-                          text: 'NOW',
+                          text: 'Quick',
                           size: 9,
                           fontweights: FontWeight.bold,
                           color: Colors.white,
@@ -85,18 +87,18 @@ class SpinovoNowSection extends StatelessWidget {
               Row(
                 children: [
                   SmallText(
-                    text: 'Delivered to your doorstep within ',
+                    text: 'Pickup from your doorstep within',
                     size: 12,
                     letterSpacing: 0,
                   ),
-                  const Icon(
+                   Icon(
                     Icons.bolt,
-                    color: Colors.pink,
+                    color: AppColor.primeColor,
                     size: 16,
                   ),
                   SmallText(
-                    text: '2 hours',
-                    color: Colors.pink,
+                    text: '30 min',
+                    color: AppColor.primeColor,
                     fontweights: FontWeight.bold,
                     size: 12,
                     letterSpacing: 0,
@@ -195,12 +197,12 @@ class SpinovoNowSection extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
               decoration: BoxDecoration(
                 color: Colors.white,
-                border: Border.all(color: Colors.pink, width: 1),
+                border: Border.all(color: AppColor.primeColor, width: 1),
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
               ),
               child: CustomText(
                 text: 'Book',
-                color: Colors.pink,
+                color: AppColor.primeColor,
                 fontweights: FontWeight.w500,
               ),
             ),
@@ -510,8 +512,8 @@ class SpinovoNowSection extends StatelessWidget {
 // import 'package:zippied_app/widget/size_box.dart';
 // import 'package:zippied_app/widget/text_widget.dart';
 
-// class SpinovoNowSection extends StatelessWidget {
-//   const SpinovoNowSection({super.key});
+// class Q uickSection extends StatelessWidget {
+//   const Q uickSection({super.key});
 
 //   @override
 //   Widget build(BuildContext context) {

@@ -20,7 +20,7 @@ class HomeMsgSextion extends StatelessWidget {
           overFlow: TextOverflow.visible,
         ),
         CustomText(
-          text: 'India’s first quick laundry service',
+          text: 'India’s first quick service app',
           size: 14,
           color: const Color.fromARGB(176, 143, 143, 143),
           fontweights: FontWeight.w500,

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:zippied_app/component/custom_appbar.dart';
 import 'package:zippied_app/providers/wallet_provider.dart';
+import 'package:zippied_app/utiles/assets.dart';
 import 'package:zippied_app/utiles/color.dart';
 import 'package:zippied_app/utiles/constants.dart';
 import 'package:zippied_app/utiles/designe.dart';
@@ -13,9 +14,10 @@ import 'package:zippied_app/widget/text_widget.dart';
 import 'package:intl/intl.dart';
 
 class WalletScreen extends StatefulWidget {
-  const WalletScreen({Key? key}) : super(key: key);
+  const WalletScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _WalletScreenState createState() => _WalletScreenState();
 }
 
@@ -34,8 +36,10 @@ class _WalletScreenState extends State<WalletScreen> {
     // Fetch initial wallet data
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<WalletProvider>(context, listen: false).fetchBalance();
-      Provider.of<WalletProvider>(context, listen: false)
-          .fetchTransactionHistory();
+      Provider.of<WalletProvider>(
+        context,
+        listen: false,
+      ).fetchTransactionHistory();
     });
   }
 
@@ -72,9 +76,9 @@ class _WalletScreenState extends State<WalletScreen> {
     try {
       _razorpay.open(options);
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error initiating payment: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error initiating payment: $e')));
     }
   }
 
@@ -92,9 +96,9 @@ class _WalletScreenState extends State<WalletScreen> {
         const SnackBar(content: Text('Payment successful! Wallet credited.')),
       );
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error crediting wallet: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error crediting wallet: $e')));
     }
   }
 
@@ -107,7 +111,8 @@ class _WalletScreenState extends State<WalletScreen> {
   void _handleExternalWallet(ExternalWalletResponse response) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-          content: Text('External wallet selected: ${response.walletName}')),
+        content: Text('External wallet selected: ${response.walletName}'),
+      ),
     );
   }
 
@@ -123,153 +128,150 @@ class _WalletScreenState extends State<WalletScreen> {
           backgroundColor: AppColor.bgColor,
           appBar: const PreferredSize(
             preferredSize: Size.fromHeight(60),
-            child: CustomAppBar(
-              title: "Wallet",
-              isBack: true,
-            ),
+            child: CustomAppBar(title: "Wallet", isBack: true),
           ),
           body: walletProvider.isLoading
               ? const Center(child: CircularProgressIndicator())
               : walletProvider.errorMessage != null
-                  ? Center(child: Text(walletProvider.errorMessage!))
-                  : SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Container(
-                            decoration:
-                                const BoxDecoration(color: Colors.white),
-                            child: Padding(
-                              padding: const EdgeInsets.all(12),
-                              child: Column(
-                                children: [
-                                  TotalWalletSection(
-                                    totalAmount: walletBalance != null
-                                        ? '₹${walletBalance.totalBalance}'
-                                        : '₹0.0',
-                                    cash: walletBalance != null
-                                        ? '₹${walletBalance.cash}'
-                                        : '₹0.0',
-                                    bonus: walletBalance != null
-                                        ? '₹${walletBalance.bonus}'
-                                        : '₹0.0',
-                                  ),
-                                  const Height(15),
-                                  DepositSection(
-                                    amountController: _amountController,
-                                    onProceed: _startPayment,
-                                  ),
-                                ],
+              ? Center(child: Text(walletProvider.errorMessage!))
+              : SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        decoration: const BoxDecoration(color: Colors.white),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Column(
+                            children: [
+                              TotalWalletSection(
+                                totalAmount: walletBalance != null
+                                    ? '₹${walletBalance.totalBalance}'
+                                    : '₹0.0',
+                                cash: walletBalance != null
+                                    ? '₹${walletBalance.cash}'
+                                    : '₹0.0',
+                                bonus: walletBalance != null
+                                    ? '₹${walletBalance.bonus}'
+                                    : '₹0.0',
                               ),
-                            ),
-                          ),
-                          const Height(15),
-                          Container(
-                            decoration:
-                                const BoxDecoration(color: Colors.white),
-                            child: Padding(
-                              padding: const EdgeInsets.all(20),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  CustomText(
-                                    text: "Recent Transactions",
-                                    size: 15,
-                                    fontweights: FontWeight.w500,
-                                  ),
-                                  const Height(8),
-                                  transactionHistory.isEmpty
-                                      ? CustomText(
-                                          text: "No transactions available",
-                                          size: 14,
-                                        )
-                                      : Column(
-                                          children: transactionHistory
-                                              .map((history) => ListTile(
-                                                    dense: true,
-                                                    contentPadding:
-                                                        const EdgeInsets
-                                                            .symmetric(
-                                                            horizontal: 0.0,
-                                                            vertical: 0.0),
-                                                    visualDensity:
-                                                        const VisualDensity(
-                                                            horizontal: 0,
-                                                            vertical: 0),
-                                                    title: CustomText(
-                                                      text: history.message
-                                                                  ?.isNotEmpty ==
-                                                              true
-                                                          ? history.message!
-                                                          : history.transactionType ==
-                                                                  'credit'
-                                                              ? 'Wallet Recharge'
-                                                              : 'Wallet Debit',
-                                                      size: 14,
-                                                    ),
-                                                    subtitle: CustomText(
-                                                      text: history.createdAt !=
-                                                              null
-                                                          ? DateFormat(
-                                                                  'dd/MM/yyyy • hh:mm a')
-                                                              .format(DateTime
-                                                                      .parse(history
-                                                                          .createdAt!)
-                                                                  .toLocal())
-                                                          : 'Unknown date',
-                                                      size: 12,
-                                                    ),
-                                                    leading: Container(
-                                                      height: 40,
-                                                      width: 40,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(50),
-                                                        color: history
-                                                                    .transactionType ==
-                                                                'credit'
-                                                            ? Colors.green
-                                                                .withOpacity(
-                                                                    0.2)
-                                                            : Colors.red
-                                                                .withOpacity(
-                                                                    0.2),
-                                                      ),
-                                                      child: Center(
-                                                        child: Icon(
-                                                          history.transactionType ==
-                                                                  'credit'
-                                                              ? Icons.add
-                                                              : Icons.remove,
-                                                          color:
-                                                              history.transactionType ==
-                                                                      'credit'
-                                                                  ? Colors.green
-                                                                  : Colors.red,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    trailing: CustomText(
-                                                      text:
-                                                          '₹${history.amount}',
-                                                      size: 15,
-                                                      color:
-                                                          history.transactionType ==
-                                                                  'credit'
-                                                              ? Colors.green
-                                                              : Colors.red,
-                                                    ),
-                                                  ))
-                                              .toList(),
-                                        ),
-                                ],
+                              const Height(15),
+                              DepositSection(
+                                amountController: _amountController,
+                                onProceed: _startPayment,
                               ),
-                            ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                      const Height(15),
+                      Container(
+                        decoration: const BoxDecoration(color: Colors.white),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CustomText(
+                                text: "Recent Transactions",
+                                size: 15,
+                                fontweights: FontWeight.w500,
+                              ),
+                              const Height(8),
+                              transactionHistory.isEmpty
+                                  ? CustomText(
+                                      text: "No transactions available",
+                                      size: 14,
+                                    )
+                                  : Column(
+                                      children: transactionHistory
+                                          .map(
+                                            (history) => ListTile(
+                                              dense: true,
+                                              contentPadding:
+                                                  const EdgeInsets.symmetric(
+                                                    horizontal: 0.0,
+                                                    vertical: 0.0,
+                                                  ),
+                                              visualDensity:
+                                                  const VisualDensity(
+                                                    horizontal: 0,
+                                                    vertical: 0,
+                                                  ),
+                                              title: CustomText(
+                                                text:
+                                                    history
+                                                            .message
+                                                            ?.isNotEmpty ==
+                                                        true
+                                                    ? history.message!
+                                                    : history.transactionType ==
+                                                          'credit'
+                                                    ? 'Wallet Recharge'
+                                                    : 'Wallet Debit',
+                                                size: 14,
+                                              ),
+                                              subtitle: CustomText(
+                                                text: history.createdAt != null
+                                                    ? DateFormat(
+                                                        'dd/MM/yyyy • hh:mm a',
+                                                      ).format(
+                                                        DateTime.parse(
+                                                          history.createdAt!,
+                                                        ).toLocal(),
+                                                      )
+                                                    : 'Unknown date',
+                                                size: 12,
+                                              ),
+                                              leading: Container(
+                                                height: 40,
+                                                width: 40,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(50),
+                                                  color:
+                                                      history.transactionType ==
+                                                          'credit'
+                                                      ? Colors.green
+                                                            .withOpacity(0.2)
+                                                      : Colors.red.withOpacity(
+                                                          0.2,
+                                                        ),
+                                                ),
+                                                child: Center(
+                                                  child: Icon(
+                                                    history.transactionType ==
+                                                            'credit'
+                                                        ? Icons.add
+                                                        : Icons.remove,
+                                                    color:
+                                                        history.transactionType ==
+                                                            'credit'
+                                                        ? Colors.green
+                                                        : Colors.red,
+                                                  ),
+                                                ),
+                                              ),
+                                              trailing: CustomText(
+                                                text: '₹${history.amount}',
+                                                size: 15,
+                                                color:
+                                                    history.transactionType ==
+                                                        'credit'
+                                                    ? Colors.green
+                                                    : Colors.red,
+                                              ),
+                                            ),
+                                          )
+                                          .toList(),
+                                    ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
         );
       },
     );
@@ -297,51 +299,22 @@ class TotalWalletSection extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomText(
-              text: "Total Wallet Balance",
-              size: 15,
+            Row(
+              children: [
+                Image.asset(AppAssets.walletImage),
+                CustomText(text: "Total Wallet Balance", size: 15),
+                const Height(8),
+              ],
             ),
-            const Height(8),
-            HeadingText(
-              text: totalAmount,
-            ),
+            HeadingText(text: totalAmount),
             const Height(20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                AmountWalletBox(
-                  title: "Your Cash",
-                  amount: cash,
-                ),
+                AmountWalletBox(title: "Cash", amount: cash),
                 const Widths(15),
-                Container(
-                  height: 22,
-                  width: 22,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFCCD1CB),
-                    borderRadius: const BorderRadius.all(Radius.circular(50)),
-                    border: Border.all(color: const Color(0xFFCCD1CB)),
-                  ),
-                  child: Center(
-                    child: CustomText(
-                      text: '+',
-                      size: 15,
-                    ),
-                  ),
-                ),
-                const Widths(15),
-                AmountWalletBox(
-                  title: "Spinovo Bonus",
-                  amount: bonus,
-                ),
+                AmountWalletBox(title: "Bonus", amount: bonus),
               ],
-            ),
-            const Height(8),
-            const Divider(color: Color(0xFFCCD1CB)),
-            const Height(8),
-            const Text(
-              'Your wallet balance is fully redeemable for bookings and extensions, and has no expiration date',
-              style: TextStyle(fontSize: 12, color: Colors.grey),
             ),
           ],
         ),
@@ -424,11 +397,7 @@ class DepositSection extends StatelessWidget {
           ),
           child: Padding(
             padding: const EdgeInsets.all(8),
-            child: Center(
-              child: CustomText(
-                text: amount,
-              ),
-            ),
+            child: Center(child: CustomText(text: amount)),
           ),
         ),
       ),
@@ -439,11 +408,7 @@ class DepositSection extends StatelessWidget {
 class AmountWalletBox extends StatelessWidget {
   final String title;
   final String amount;
-  const AmountWalletBox({
-    super.key,
-    required this.title,
-    required this.amount,
-  });
+  const AmountWalletBox({super.key, required this.title, required this.amount});
 
   @override
   Widget build(BuildContext context) {
@@ -459,15 +424,8 @@ class AmountWalletBox extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CustomText(
-              text: title,
-              size: 12,
-            ),
-            CustomText(
-              text: amount,
-              fontweights: FontWeight.w500,
-              size: 12,
-            ),
+            CustomText(text: title, size: 12),
+            CustomText(text: amount, fontweights: FontWeight.w500, size: 12),
           ],
         ),
       ),
