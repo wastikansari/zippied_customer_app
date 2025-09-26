@@ -28,7 +28,7 @@ class CustomAppBar extends StatelessWidget {
         fontweights: FontWeight.w500,
       ),
       backgroundColor: Colors.white,
-      elevation: 0.3,
+      elevation: 0.1,
       shadowColor: const Color.fromARGB(255, 210, 210, 210),
     );
   }

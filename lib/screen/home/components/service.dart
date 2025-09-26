@@ -83,7 +83,7 @@ class ServiceSection extends StatelessWidget {
               ServiceBox(
                 title: 'Ironing',
                 id: 1,
-                image: AppAssets.ironing,
+                image: AppAssets.serviceIcon1,
                 onTap: () {
                   _serviceTap(1, context);
                 },
@@ -91,14 +91,14 @@ class ServiceSection extends StatelessWidget {
               ServiceBox(
                 title: 'Dry Cleaning',
                 id: 4,
-                image: AppAssets.drycleaning,
+                image: AppAssets.serviceIcon2,
                 onTap: () {
                   _serviceTap(4, context);
                 },
               ),
             ],
           ),
-          const Height(20),
+          const Height(10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,7 +106,7 @@ class ServiceSection extends StatelessWidget {
               ServiceBox(
                 title: 'Wash',
                 id: 2,
-                image: AppAssets.wash,
+                image: AppAssets.serviceIcon3,
                 onTap: () {
                   _serviceTap(2, context);
                 },
@@ -114,7 +114,7 @@ class ServiceSection extends StatelessWidget {
               ServiceBox(
                 title: 'Wash + Ironing',
                 id: 3,
-                image: AppAssets.washIroning,
+                image: AppAssets.serviceIcon4,
                 onTap: () {
                   _serviceTap(3, context);
                 },
@@ -122,7 +122,7 @@ class ServiceSection extends StatelessWidget {
               ServiceBox(
                 title: 'Shoe Cleaning',
                 id: 5,
-                image: AppAssets.shoesCleaning,
+                image: AppAssets.serviceIcon5,
                 onTap: () {
                   _serviceTap(5, context);
                 },
@@ -155,7 +155,8 @@ class ServiceBox extends StatelessWidget {
       onTap: () {
         onTap();
       },
-      child: Image.asset(image, height: 85),
+      child: 
+      Image.asset(image, height: 90),
     );
   }
 }

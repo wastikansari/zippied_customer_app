@@ -433,7 +433,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               _buildChargeRow("Tip", charges['tips']!),
             ],
             const Height(10),
-            const dotPointWidget(),
+            const DotPointHorizontal(),
             const Height(10),
             _buildChargeRow("Total Payable", totalPayable, isTotal: true),
             const Height(10),
