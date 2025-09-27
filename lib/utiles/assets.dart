@@ -1,5 +1,3 @@
-
-
 class AppAssets {
   static String logo = "asset/images/logo.png";
   static String wallet = "asset/icons/wallet.png";
@@ -20,4 +18,14 @@ class AppAssets {
   static String serviceIcon4 = "asset/images/service_icon4.png";
   static String serviceIcon5 = "asset/images/service_icon5.png";
 
+  static const logoBlue = "asset/images/clocare_logo_blue.png";
+  static const logoIcon = "asset/images/logo_icon.png";
+  static const introFram1 = "asset/images/fram1.jpg";
+  static const introFram2 = "asset/images/fram2.jpg";
+  static const introFram3 = "asset/images/fram3.jpg";
+
+  static const profile = "asset/icons/profile.png";
+  static const gps = "asset/icons/gps.png";
+  static const policies = "asset/icons/policies.png";
+  static const support = "asset/icons/support.png";
 }

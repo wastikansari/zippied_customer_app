@@ -29,6 +29,8 @@ class _SplashScreenState extends State<SplashScreen> {
     } else {
       // ignore: use_build_context_synchronously
       context.go('/phone');
+      // ignore: use_build_context_synchronously
+      // context.go('/Intro');
     }
   }
 

@@ -4,6 +4,7 @@ import 'package:zippied_app/screen/account/profile_screen.dart';
 import 'package:zippied_app/screen/address/address_create_edite_screen.dart';
 import 'package:zippied_app/screen/address/address_screen.dart';
 import 'package:zippied_app/screen/auth/details_screen.dart';
+import 'package:zippied_app/screen/auth/intro_screen.dart';
 import 'package:zippied_app/screen/auth/otp_screen.dart';
 import 'package:zippied_app/screen/auth/phone_screen.dart';
 import 'package:zippied_app/screen/splash_screen.dart';
@@ -12,14 +13,8 @@ import 'package:zippied_app/services/bottom_navigation.dart';
 final GoRouter router = GoRouter(
   initialLocation: '/splash',
   routes: [
-    GoRoute(
-      path: '/splash',
-      builder: (context, state) => const SplashScreen(),
-    ),
-    GoRoute(
-      path: '/phone',
-      builder: (context, state) => const PhoneScreen(),
-    ),
+    GoRoute(path: '/splash', builder: (context, state) => const SplashScreen()),
+    GoRoute(path: '/phone', builder: (context, state) => const PhoneScreen()),
     GoRoute(
       path: '/otp',
       builder: (context, state) {
@@ -50,5 +45,9 @@ final GoRouter router = GoRouter(
       path: '/profile',
       builder: (context, state) => const ProfileScreen(),
     ),
+    // GoRoute(
+      // path: '/Intro',
+      // builder: (context, state) => const IntroScreen(),
+    // ),
   ],
 );

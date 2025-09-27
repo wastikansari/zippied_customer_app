@@ -8,7 +8,8 @@ class AppColor {
   static Color backgroundColors = Color(0xFFFFFFFF);
 
   static Color primaryColor = const Color(0xFF57FF8F);
-  static Color bgColor = const Color(0xFFF5F6FB);
+  // static Color bgColor = const Color(0xFFF5F6FB); 
+  static Color bgColor = const Color(0xFFF4F5FA); 
   static Color appbarColor = const Color(0xFFE42033);
   static Color primeColor = const Color(0xFFE42033);
   // static Color textColor = const Color(0xFF10183F);
