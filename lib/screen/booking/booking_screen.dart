@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:zippied_app/component/custom_appbar.dart';
 import 'package:zippied_app/providers/order_provider.dart';
 import 'package:zippied_app/screen/booking/booking_details_screen.dart';
-import 'package:zippied_app/screen/home/home_screen.dart';
 import 'package:zippied_app/services/bottom_navigation.dart';
 import 'package:zippied_app/utiles/color.dart';
 import 'package:zippied_app/widget/size_box.dart';
@@ -41,9 +40,8 @@ class _BookingScreenState extends State<BookingScreen> {
           // ignore: use_build_context_synchronously
           context,
           MaterialPageRoute(
-              builder: (context) => const BottomNavigation(
-                    indexSet: 0,
-                  )),
+            builder: (context) => const BottomNavigation(indexSet: 0),
+          ),
         );
         return false; // prevent default back behavior
       },
@@ -51,10 +49,7 @@ class _BookingScreenState extends State<BookingScreen> {
         backgroundColor: AppColor.bgColor,
         appBar: const PreferredSize(
           preferredSize: Size.fromHeight(60),
-          child: CustomAppBar(
-            title: "Your bookings",
-            isBack: false,
-          ),
+          child: CustomAppBar(title: "Your bookings", isBack: false),
         ),
         body: Consumer<OrderProvider>(
           builder: (context, orderProvider, child) {
@@ -113,13 +108,16 @@ class _BookingScreenState extends State<BookingScreen> {
                 } catch (e) {
                   bookingDate = DateTime.now(); // Fallback to current date
                 }
-                final formattedDate =
-                    DateFormat('EEEE, d MMMM yyyy').format(bookingDate);
-                final formattedTime = DateFormat('h:mm a').format(bookingDate);
-                final formattedDay =
-                    DateFormat('d').format(bookingDate).toUpperCase();
-                final formattedMonth =
-                    DateFormat('MMM').format(bookingDate).toUpperCase();
+                final formattedDate = DateFormat(
+                  'EEE, d MMMM yyyy',
+                ).format(bookingDate);
+                DateFormat('h:mm a').format(bookingDate);
+                final formattedDay = DateFormat(
+                  'd',
+                ).format(bookingDate).toUpperCase();
+                final formattedMonth = DateFormat(
+                  'MMM',
+                ).format(bookingDate).toUpperCase();
 
                 return GestureDetector(
                   onTap: () {
@@ -156,16 +154,17 @@ class _BookingScreenState extends State<BookingScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 SmallText(
-                                  text: order.orderDisplayNo!,
+                                  text: order.orderDisplayNo.toString(),
                                   fontweights: FontWeight.bold,
                                   color: Colors.black,
                                   size: 14,
                                 ),
-                                SmallText(
-                                  text: "$formattedDay$formattedMonth",
-                                  color: Colors.grey,
-                                  size: 12,
-                                ),
+
+                                // SmallText(
+                                //   text: "$formattedDay$formattedMonth",
+                                //   color: Colors.grey,
+                                //   size: 12,
+                                // ),
                               ],
                             ),
                           ),
@@ -175,45 +174,64 @@ class _BookingScreenState extends State<BookingScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SmallText(
-                                  text: formattedDate,
-                                  fontweights: FontWeight.bold,
-                                  overFlow: TextOverflow.visible,
-                                  size: 16,
-                                  color: isPastBooking
-                                      ? Colors.grey.shade600
-                                      : Colors.black,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SmallText(
+                                      text: order.orderDisplayNo.toString(),
+                                      fontweights: FontWeight.bold,
+                                      color: Colors.black,
+                                      size: 14,
+                                    ),
+                                    // Status
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 16,
+                                        vertical: 4,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: order.ordStatus == 'Pending'
+                                            ? Colors.orange.shade50
+                                            : Colors.red.shade50,
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: Text(
+                                        order.ordStatus!.toUpperCase(),
+                                        style: TextStyle(
+                                          color: order.ordStatus == 'Pending'
+                                              ? Colors.orange
+                                              : Colors.red,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                const Height(4),
+                                // SmallText(
+                                //   text: formattedDate,
+                                //   fontweights: FontWeight.bold,
+                                //   overFlow: TextOverflow.visible,
+                                //   size: 13,
+                                //   color: isPastBooking
+                                //       ? Colors.grey.shade600
+                                //       : Colors.black,
+                                // ),
+                                const Height(3),
                                 SmallText(
                                   text:
                                       '${order.bookingDate} • ${order.bookingTime}',
                                   color: Colors.grey.shade600,
                                 ),
+                                Height(3),
+                                SmallText(
+                                  text:
+                                      'Amount: ₹${order.orderAmount} (${order.paymentStatus})',
+                                  color: Colors.grey.shade600,
+                                ),
                               ],
-                            ),
-                          ),
-                          // Status
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: order.ordStatus == 'Pending'
-                                  ? Colors.orange.shade50
-                                  : Colors.red.shade50,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Text(
-                              order.ordStatus!.toUpperCase(),
-                              style: TextStyle(
-                                color: order.ordStatus == 'Pending'
-                                    ? Colors.orange
-                                    : Colors.red,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ),
                             ),
                           ),
                         ],
