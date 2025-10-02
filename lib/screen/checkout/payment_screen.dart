@@ -510,33 +510,34 @@ class _PaymentScreenState extends State<PaymentScreen> {
     };
 
     try {
-      await _paymentUtils.processPayment(
-        context: context,
-        bookingDetails: bookingDetails,
-        totalPayable: totalPayable,
-        walletBalance: _useWallet ? walletBalance : 0,
-        addressId: addressId,
-        onSuccess: () {
-          _showToast('Payment successful');
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const BottomNavigation()),
-          );
-        },
-        onError: (error) {
-          String errorMessage;
-          if (error.contains('ExternalWalletSelectedException')) {
-            errorMessage = 'External wallet payment cancelled';
-          } else if (error.contains('NetworkError')) {
-            errorMessage = 'Network error, please check your connection';
-          } else if (error.contains('Validation error')) {
-            errorMessage = 'Invalid payment details, please try again';
-          } else {
-            errorMessage = 'Payment failed: $error';
-          }
-          _showToast(errorMessage);
-        },
-      );
+         const SnackBar(content: Text('Payment gateway will be integrated very soon.'));
+      // await _paymentUtils.processPayment(
+      //   context: context,
+      //   bookingDetails: bookingDetails,
+      //   totalPayable: totalPayable,
+      //   walletBalance: _useWallet ? walletBalance : 0,
+      //   addressId: addressId,
+      //   onSuccess: () {
+      //     _showToast('Payment successful');
+      //     Navigator.push(
+      //       context,
+      //       MaterialPageRoute(builder: (context) => const BottomNavigation()),
+      //     );
+      //   },
+      //   onError: (error) {
+      //     String errorMessage;
+      //     if (error.contains('ExternalWalletSelectedException')) {
+      //       errorMessage = 'External wallet payment cancelled';
+      //     } else if (error.contains('NetworkError')) {
+      //       errorMessage = 'Network error, please check your connection';
+      //     } else if (error.contains('Validation error')) {
+      //       errorMessage = 'Invalid payment details, please try again';
+      //     } else {
+      //       errorMessage = 'Payment failed: $error';
+      //     }
+      //     _showToast(errorMessage);
+      //   },
+      // );
     } catch (e) {
       _showToast('Unexpected error: $e');
     } finally {

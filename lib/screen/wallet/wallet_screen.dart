@@ -59,28 +59,29 @@ class _WalletScreenState extends State<WalletScreen> {
       );
       return;
     }
+        const SnackBar(content: Text('Payment gateway will be integrated very soon.'));
 
-    var options = {
-      'key': AppConstants.RAZORPAY_KEY_ID,
-      'amount': amount * 100, // Convert to paise
-      'name': 'CLOCARE',
-      'description': 'Wallet Recharge',
-      'retry': {'enabled': true, 'max_count': 1},
-      'send_sms_hash': true,
-      'prefill': {
-        'contact': '1234567890', // Replace with actual user data
-        'email': 'user@example.com', // Replace with actual user data
-      },
-      'theme': {'color': '#004aad'},
-    };
+    // var options = {
+    //   'key': AppConstants.RAZORPAY_KEY_ID,
+    //   'amount': amount * 100, // Convert to paise
+    //   'name': 'CLOCARE',
+    //   'description': 'Wallet Recharge',
+    //   'retry': {'enabled': true, 'max_count': 1},
+    //   'send_sms_hash': true,
+    //   'prefill': {
+    //     'contact': '1234567890', // Replace with actual user data
+    //     'email': 'user@example.com', // Replace with actual user data
+    //   },
+    //   'theme': {'color': '#004aad'},
+    // };
 
-    try {
-      _razorpay.open(options);
-    } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Error initiating payment: $e')));
-    }
+    // try {
+    //   _razorpay.open(options);
+    // } catch (e) {
+    //   ScaffoldMessenger.of(
+    //     context,
+    //   ).showSnackBar(SnackBar(content: Text('Error initiating payment: $e')));
+    // }
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
