@@ -3,19 +3,21 @@ import 'package:flutter/services.dart';
 
 class OtpBox extends StatelessWidget {
   final TextEditingController controller;
-  final Function(String)? onChanged;
+  final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onPaste; // NEW
   final FocusNode focusNode;
   final FocusNode? nextFocusNode;
   final FocusNode? previousFocusNode;
 
   const OtpBox({
-    super.key,
+    Key? key,
     required this.controller,
     this.onChanged,
+    this.onPaste,
     required this.focusNode,
     this.nextFocusNode,
     this.previousFocusNode,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,6 @@ class OtpBox extends StatelessWidget {
       ),
       alignment: Alignment.center,
       child: TextField(
-        onTap: () {},
         controller: controller,
         focusNode: focusNode,
         keyboardType: TextInputType.number,
@@ -42,14 +43,29 @@ class OtpBox extends StatelessWidget {
         ),
         textAlign: TextAlign.center,
         inputFormatters: [
-          LengthLimitingTextInputFormatter(1),
           FilteringTextInputFormatter.digitsOnly,
+          // Note: no length limiter here so we can detect pasted multi-digit strings.
         ],
         onChanged: (value) {
-          print('bbbbbbbbbbbbbbbbbbbbb $value');
-          if (onChanged != null) {
-            onChanged!(value);
+          // If user pasted multiple digits into this single box (e.g. "1234")
+          if (value.length > 1) {
+            final pasted = value.replaceAll(RegExp(r'\D'), '');
+            if (pasted.isNotEmpty) {
+              if (onPaste != null) {
+                onPaste!(pasted);
+              }
+              // keep only the first char in this box for visual consistency
+              controller.text = pasted.isNotEmpty ? pasted[0] : '';
+              // place cursor at end
+              controller.selection = TextSelection.fromPosition(
+                TextPosition(offset: controller.text.length),
+              );
+            }
+            return;
           }
+
+          // Normal single-digit flow
+          if (onChanged != null) onChanged!(value);
           if (value.isNotEmpty && nextFocusNode != null) {
             nextFocusNode!.requestFocus();
           } else if (value.isEmpty && previousFocusNode != null) {
@@ -60,6 +76,7 @@ class OtpBox extends StatelessWidget {
     );
   }
 }
+
 
 
 

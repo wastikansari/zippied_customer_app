@@ -60,12 +60,7 @@ class _AddressCreateEditScreenState extends State<AddressCreateEditScreen> {
   List<AutocompletePrediction> placePredictions = [];
   String _saveAs = "Home";
   String _petsAtHome = "NO";
-  final List<String> addressTypeList = [
-    'Home',
-    'Work',
-    'Hostel/PG',
-    'Other',
-  ];
+  final List<String> addressTypeList = ['Home', 'Work', 'Hostel/PG', 'Other'];
 
   @override
   void initState() {
@@ -81,12 +76,17 @@ class _AddressCreateEditScreenState extends State<AddressCreateEditScreen> {
   }
 
   void _loadExistingAddress() {
-    final addressProvider =
-        Provider.of<AddressProvider>(context, listen: false);
-    final locationProvider =
-        Provider.of<LocationProvider>(context, listen: false);
-    final address = addressProvider.addresses
-        .firstWhere((addr) => addr.addressId == widget.addressId);
+    final addressProvider = Provider.of<AddressProvider>(
+      context,
+      listen: false,
+    );
+    final locationProvider = Provider.of<LocationProvider>(
+      context,
+      listen: false,
+    );
+    final address = addressProvider.addresses.firstWhere(
+      (addr) => addr.addressId == widget.addressId,
+    );
     setState(() {
       _existingAddress = address;
       _saveAs = address.addressType ?? _saveAs;
@@ -99,9 +99,11 @@ class _AddressCreateEditScreenState extends State<AddressCreateEditScreen> {
       _initialPosition = LatLng(latitude, longitude);
       // _isServiceAvailable = address.pincode != null &&
       //     _serviceablePincodes.contains(address.pincode);
-      _isServiceAvailable = address.pincode != null &&
-          (locationProvider.locationModel?.data?.pincode
-                  ?.contains(address.pincode) ??
+      _isServiceAvailable =
+          address.pincode != null &&
+          (locationProvider.locationModel?.data?.pincode?.contains(
+                address.pincode,
+              ) ??
               false);
     });
     if (_isMapReady) {
@@ -112,9 +114,10 @@ class _AddressCreateEditScreenState extends State<AddressCreateEditScreen> {
   }
 
   Future<void> _addressSave(
-      AddressProvider addressProvider,
-      TextEditingController houseNumberController,
-      TextEditingController flatController) async {
+    AddressProvider addressProvider,
+    TextEditingController houseNumberController,
+    TextEditingController flatController,
+  ) async {
     final String flatNo = houseNumberController.text.trim();
     final String building = flatController.text.trim();
     if (_currentPlacemark == null && widget.addressId == null) {
@@ -138,7 +141,8 @@ class _AddressCreateEditScreenState extends State<AddressCreateEditScreen> {
       'landmark':
           _currentPlacemark?.subLocality ?? _existingAddress?.landmark ?? '',
       'city': _currentPlacemark?.locality ?? _existingAddress?.city ?? '',
-      'state': _currentPlacemark?.administrativeArea ??
+      'state':
+          _currentPlacemark?.administrativeArea ??
           _existingAddress?.state ??
           '',
       'pincode':
@@ -173,7 +177,8 @@ class _AddressCreateEditScreenState extends State<AddressCreateEditScreen> {
         builder: (context) => AlertDialog(
           title: const Text("Location Services Disabled"),
           content: const Text(
-              "Please enable location services to use this feature."),
+            "Please enable location services to use this feature.",
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
@@ -209,7 +214,8 @@ class _AddressCreateEditScreenState extends State<AddressCreateEditScreen> {
           builder: (context) => AlertDialog(
             title: const Text("Location Permission Denied"),
             content: const Text(
-                "This app needs location access to function properly. Please grant the permission."),
+              "This app needs location access to function properly. Please grant the permission.",
+            ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(false),
@@ -242,7 +248,8 @@ class _AddressCreateEditScreenState extends State<AddressCreateEditScreen> {
         builder: (context) => AlertDialog(
           title: const Text("Location Permission Denied"),
           content: const Text(
-              "Location permissions are permanently denied. Please enable them in the app settings."),
+            "Location permissions are permanently denied. Please enable them in the app settings.",
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
@@ -295,11 +302,15 @@ class _AddressCreateEditScreenState extends State<AddressCreateEditScreen> {
         throw Exception("Location permissions are denied");
       }
 
-      Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-      ).timeout(const Duration(seconds: 10), onTimeout: () {
-        throw Exception("Timed out while fetching location");
-      });
+      Position position =
+          await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high,
+          ).timeout(
+            const Duration(seconds: 10),
+            onTimeout: () {
+              throw Exception("Timed out while fetching location");
+            },
+          );
 
       LatLng newPosition = LatLng(position.latitude, position.longitude);
       setState(() {
@@ -337,15 +348,19 @@ class _AddressCreateEditScreenState extends State<AddressCreateEditScreen> {
         position.longitude,
       );
       Placemark place = placemarks[0];
-      final locationProvider =
-          Provider.of<LocationProvider>(context, listen: false);
+      final locationProvider = Provider.of<LocationProvider>(
+        context,
+        listen: false,
+      );
       setState(() {
         _currentPlacemark = place;
         _currentAddress =
             "${place.street ?? ''}, ${place.subLocality ?? ''}, ${place.locality ?? ''}, ${place.administrativeArea ?? ''}, ${place.country ?? ''}";
-        _isServiceAvailable = place.postalCode != null &&
-            (locationProvider.locationModel?.data?.pincode
-                    ?.contains(place.postalCode) ??
+        _isServiceAvailable =
+            place.postalCode != null &&
+            (locationProvider.locationModel?.data?.pincode?.contains(
+                  place.postalCode,
+                ) ??
                 false);
       });
       if (locationProvider.errorMessage != null) {
@@ -502,15 +517,13 @@ class _AddressCreateEditScreenState extends State<AddressCreateEditScreen> {
                           },
                         ),
                         TextButton.icon(
-                          icon: Icon(
-                            Icons.map,
-                            color: AppColor.appbarColor,
-                          ),
+                          icon: Icon(Icons.map, color: AppColor.appbarColor),
                           label: SmallText(
-                              text: "Locate on Map",
-                              size: 14,
-                              color: Colors.black,
-                              fontweights: FontWeight.w500),
+                            text: "Locate on Map",
+                            size: 14,
+                            color: Colors.black,
+                            fontweights: FontWeight.w500,
+                          ),
                           onPressed: () {
                             Navigator.pop(context);
                           },
@@ -521,30 +534,31 @@ class _AddressCreateEditScreenState extends State<AddressCreateEditScreen> {
                     SizedBox(
                       height: 200,
                       child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: placePredictions.length,
-                          itemBuilder: (context, index) => LocationListTile(
-                              press: () async {
-                                final placeId = placePredictions[index].placeId;
-                                final latLng =
-                                    await getLatLngFromPlaceId(placeId!);
+                        shrinkWrap: true,
+                        itemCount: placePredictions.length,
+                        itemBuilder: (context, index) => LocationListTile(
+                          press: () async {
+                            final placeId = placePredictions[index].placeId;
+                            final latLng = await getLatLngFromPlaceId(placeId!);
 
-                                if (latLng != null) {
-                                  setState(() {
-                                    _initialPosition = latLng;
-                                  });
+                            if (latLng != null) {
+                              setState(() {
+                                _initialPosition = latLng;
+                              });
 
-                                  if (_mapController != null && _isMapReady) {
-                                    await _mapController!.animateCamera(
-                                      CameraUpdate.newLatLngZoom(latLng, 15),
-                                    );
-                                  }
+                              if (_mapController != null && _isMapReady) {
+                                await _mapController!.animateCamera(
+                                  CameraUpdate.newLatLngZoom(latLng, 15),
+                                );
+                              }
 
-                                  await _updateAddress(latLng);
-                                  Navigator.pop(context);
-                                }
-                              },
-                              location: placePredictions[index].description!)),
+                              await _updateAddress(latLng);
+                              Navigator.pop(context);
+                            }
+                          },
+                          location: placePredictions[index].description!,
+                        ),
+                      ),
                     ),
                     const Height(20),
                   ],
@@ -595,39 +609,34 @@ class _AddressCreateEditScreenState extends State<AddressCreateEditScreen> {
                           ),
                         ),
                         TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                              _showSearchBottomSheet();
-                            },
-                            child: SmallText(
-                              text: "Change",
-                              size: 16,
-                              color: const Color.fromARGB(227, 76, 175, 79),
-                              fontweights: FontWeight.w500,
-                            )),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            _showSearchBottomSheet();
+                          },
+                          child: SmallText(
+                            text: "Change",
+                            size: 16,
+                            color:  AppColor.primeColor,
+                            fontweights: FontWeight.w500,
+                          ),
+                        ),
                       ],
                     ),
                     const Height(5),
-                    SmallText(
-                      text: _currentAddress,
-                    ),
+                    SmallText(text: _currentAddress),
                     const Height(10),
                     customTextField(
                       height: 45,
                       controller: _houseNumberController,
                       hintText: 'House / Flat / Floor Number',
-                      inputFormatters: [
-                        LengthLimitingTextInputFormatter(25),
-                      ],
+                      inputFormatters: [LengthLimitingTextInputFormatter(25)],
                     ),
                     const Height(10),
                     customTextField(
                       height: 45,
                       controller: _flatController,
                       hintText: 'Appartment / Building / Block',
-                      inputFormatters: [
-                        LengthLimitingTextInputFormatter(40),
-                      ],
+                      inputFormatters: [LengthLimitingTextInputFormatter(40)],
                     ),
                     const Height(10),
                     const TextTitle(title: 'Save as', optionalText: '*'),
@@ -638,8 +647,9 @@ class _AddressCreateEditScreenState extends State<AddressCreateEditScreen> {
                         final isSelected = _saveAs == type;
                         return Expanded(
                           child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 4.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 4.0,
+                            ),
                             child: HouseholdTypeBox(
                               text: type,
                               isSelected: isSelected,
@@ -734,8 +744,11 @@ class _AddressCreateEditScreenState extends State<AddressCreateEditScreen> {
                             isValid: true,
                             isLoading: addressProvider.isLoading,
                             onTap: () {
-                              _addressSave(addressProvider,
-                                  _houseNumberController, _flatController);
+                              _addressSave(
+                                addressProvider,
+                                _houseNumberController,
+                                _flatController,
+                              );
                             },
                           );
                         },
@@ -760,11 +773,11 @@ class _AddressCreateEditScreenState extends State<AddressCreateEditScreen> {
   }
 
   void placeAutocomplate(String query) async {
-    Uri url =
-        Uri.https("maps.googleapis.com", "maps/api/place/autocomplete/json", {
-      "input": query,
-      "key": GOOGLE_MAP_PLACE_PAI_KEY,
-    });
+    Uri url = Uri.https(
+      "maps.googleapis.com",
+      "maps/api/place/autocomplete/json",
+      {"input": query, "key": GOOGLE_MAP_PLACE_PAI_KEY},
+    );
     String? response = await NetworkUtilitiy.fetchUrl(url);
     if (response != null) {
       PlaceAutocompleteResponse result =
@@ -824,16 +837,15 @@ class _AddressCreateEditScreenState extends State<AddressCreateEditScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(
-                  Icons.location_pin,
-                  color: Color.fromARGB(223, 0, 179, 6),
-                  size: 40,
-                ),
+                Icon(Icons.location_pin, color: AppColor.primeColor, size: 40),
                 const SizedBox(height: 10),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
+                    // ignore: deprecated_member_use
                     color: Colors.black.withOpacity(0.7),
                     borderRadius: BorderRadius.circular(20),
                   ),
@@ -860,8 +872,9 @@ class _AddressCreateEditScreenState extends State<AddressCreateEditScreen> {
                         width: 130,
                         height: 38,
                         decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8)),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                         child: Padding(
                           padding: const EdgeInsets.all(8),
                           child: Row(
@@ -878,7 +891,7 @@ class _AddressCreateEditScreenState extends State<AddressCreateEditScreen> {
                                 text: "Locate me",
                                 fontweights: FontWeight.w500,
                                 color: Colors.black,
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -901,22 +914,24 @@ class _AddressCreateEditScreenState extends State<AddressCreateEditScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
-                          child: SmallText(
-                        text: _isServiceAvailable || widget.addressId != null
-                            ? _currentAddress.split(',')[0]
-                            : "Service Not Available",
-                        size: 18,
-                        fontweights: FontWeight.w500,
-                        color: Colors.black,
-                      )),
+                        child: SmallText(
+                          text: _isServiceAvailable || widget.addressId != null
+                              ? _currentAddress.split(',')[0]
+                              : "Service Not Available",
+                          size: 18,
+                          fontweights: FontWeight.w500,
+                          color: Colors.black,
+                        ),
+                      ),
                       TextButton(
-                          onPressed: _showSearchBottomSheet,
-                          child: SmallText(
-                            text: "Change",
-                            size: 16,
-                            color: const Color.fromARGB(227, 76, 175, 79),
-                            fontweights: FontWeight.w500,
-                          )),
+                        onPressed: _showSearchBottomSheet,
+                        child: SmallText(
+                          text: "Change",
+                          size: 16,
+                          color:  AppColor.primeColor,
+                          fontweights: FontWeight.w500,
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 8),
@@ -936,8 +951,8 @@ class _AddressCreateEditScreenState extends State<AddressCreateEditScreen> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor:
                             _isServiceAvailable || widget.addressId != null
-                                ? const Color(0xFF33C362)
-                                : Colors.grey[200],
+                            ? AppColor.primeColor
+                            : Colors.grey[200],
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),

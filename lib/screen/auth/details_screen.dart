@@ -151,11 +151,11 @@ class HouseholdTypeBox extends StatelessWidget {
         height: 42,
         decoration: BoxDecoration(
           color: isSelected
-              ? const Color.fromARGB(227, 76, 175, 79)
+              ?  AppColor.primeColor
               : Colors.transparent,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: isSelected ? Colors.green.shade500 : const Color(0xFFD8DADC),
+            color: isSelected ?  AppColor.primeColor : const Color(0xFFD8DADC),
             width: 1,
           ),
         ),

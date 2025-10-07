@@ -118,6 +118,30 @@ class _OtpScreenState extends State<OtpScreen> {
     }
   }
 
+  void _handlePaste(String pasted) {
+    final digits = pasted.replaceAll(RegExp(r'\D'), '');
+    if (digits.isEmpty) return;
+    final d = digits.length >= 4 ? digits.substring(0, 4) : digits;
+
+    setState(() {
+      num1.text = d.length > 0 ? d[0] : '';
+      num2.text = d.length > 1 ? d[1] : '';
+      num3.text = d.length > 2 ? d[2] : '';
+      num4.text = d.length > 3 ? d[3] : '';
+    });
+
+    // If full OTP pasted, hide keyboard; else move focus to appropriate next box
+    if (d.length >= 4) {
+      FocusScope.of(context).unfocus();
+    } else if (d.length == 1) {
+      focusNode2.requestFocus();
+    } else if (d.length == 2) {
+      focusNode3.requestFocus();
+    } else if (d.length == 3) {
+      focusNode4.requestFocus();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
@@ -170,6 +194,56 @@ class _OtpScreenState extends State<OtpScreen> {
                 ),
               ),
               const Height(25),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     OtpBox(
+              //       controller: num1,
+              //       onChanged: (value) {
+              //         if (value.length == 1) focusNode2.requestFocus();
+              //       },
+              //       focusNode: focusNode1,
+              //       nextFocusNode: focusNode2,
+              //     ),
+              //     const Widths(12),
+              //     OtpBox(
+              //       controller: num2,
+              //       onChanged: (value) {
+              //         if (value.length == 1) {
+              //           focusNode3.requestFocus();
+              //         } else if (value.isEmpty) {
+              //           focusNode1.requestFocus();
+              //         }
+              //       },
+              //       focusNode: focusNode2,
+              //       nextFocusNode: focusNode3,
+              //       previousFocusNode: focusNode1,
+              //     ),
+              //     const Widths(12),
+              //     OtpBox(
+              //       controller: num3,
+              //       onChanged: (value) {
+              //         if (value.length == 1) {
+              //           focusNode4.requestFocus();
+              //         } else if (value.isEmpty) {
+              //           focusNode2.requestFocus();
+              //         }
+              //       },
+              //       focusNode: focusNode3,
+              //       nextFocusNode: focusNode4,
+              //       previousFocusNode: focusNode2,
+              //     ),
+              //     const Widths(12),
+              //     OtpBox(
+              //       controller: num4,
+              //       onChanged: (value) {
+              //         if (value.isEmpty) focusNode3.requestFocus();
+              //       },
+              //       focusNode: focusNode4,
+              //       previousFocusNode: focusNode3,
+              //     ),
+              //   ],
+              // ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -178,6 +252,7 @@ class _OtpScreenState extends State<OtpScreen> {
                     onChanged: (value) {
                       if (value.length == 1) focusNode2.requestFocus();
                     },
+                    onPaste: _handlePaste, // <-- pass handler
                     focusNode: focusNode1,
                     nextFocusNode: focusNode2,
                   ),
@@ -185,12 +260,12 @@ class _OtpScreenState extends State<OtpScreen> {
                   OtpBox(
                     controller: num2,
                     onChanged: (value) {
-                      if (value.length == 1) {
+                      if (value.length == 1)
                         focusNode3.requestFocus();
-                      } else if (value.isEmpty) {
+                      else if (value.isEmpty)
                         focusNode1.requestFocus();
-                      }
                     },
+                    onPaste: _handlePaste,
                     focusNode: focusNode2,
                     nextFocusNode: focusNode3,
                     previousFocusNode: focusNode1,
@@ -199,12 +274,12 @@ class _OtpScreenState extends State<OtpScreen> {
                   OtpBox(
                     controller: num3,
                     onChanged: (value) {
-                      if (value.length == 1) {
+                      if (value.length == 1)
                         focusNode4.requestFocus();
-                      } else if (value.isEmpty) {
+                      else if (value.isEmpty)
                         focusNode2.requestFocus();
-                      }
                     },
+                    onPaste: _handlePaste,
                     focusNode: focusNode3,
                     nextFocusNode: focusNode4,
                     previousFocusNode: focusNode2,
@@ -215,11 +290,13 @@ class _OtpScreenState extends State<OtpScreen> {
                     onChanged: (value) {
                       if (value.isEmpty) focusNode3.requestFocus();
                     },
+                    onPaste: _handlePaste,
                     focusNode: focusNode4,
                     previousFocusNode: focusNode3,
                   ),
                 ],
               ),
+
               const Height(30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -244,8 +321,9 @@ class _OtpScreenState extends State<OtpScreen> {
                 onTap: _resendOtp,
                 child: SmallText(
                   text: 'Resend code',
-                  color:
-                      _canResend ? AppColor.textColor : const Color(0xFF5a5a60),
+                  color: _canResend
+                      ? AppColor.textColor
+                      : const Color(0xFF5a5a60),
                 ),
               ),
               const Height(40),

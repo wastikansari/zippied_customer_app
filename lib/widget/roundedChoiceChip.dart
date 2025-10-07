@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../utiles/color.dart';
 
 class RoundedChoiceChip extends StatelessWidget {
   final Widget label;
@@ -8,12 +9,12 @@ class RoundedChoiceChip extends StatelessWidget {
   final TextStyle? labelStyle;
   final double borderRadius;
 
-  const RoundedChoiceChip({
+   const RoundedChoiceChip({
     super.key,
     required this.label,
     required this.selected,
     required this.onSelected,
-    this.selectedColor = const Color.fromARGB(227, 76, 175, 79),
+    this.selectedColor = const Color(0xFFE42033),
     this.labelStyle,
     this.borderRadius = 100.0,
   });
