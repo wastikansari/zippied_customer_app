@@ -1,16 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:zippied_app/screen/home/components/home_without_address.dart';
 import 'package:zippied_app/screen/home/components/home_appbar.dart';
-import 'package:zippied_app/component/msgSection.dart';
-import 'package:zippied_app/providers/address_provider.dart';
-import 'package:zippied_app/providers/wallet_provider.dart';
-import 'package:zippied_app/screen/home/components/banner.dart';
+import 'package:zippied_app/screen/home/components/zippied_now.dart';
 import 'package:zippied_app/screen/home/components/service.dart';
 import 'package:zippied_app/screen/home/components/topbar.dart';
-import 'package:zippied_app/screen/home/components/zippied_now.dart';
-import 'package:zippied_app/screen/home/components/home_without_address.dart';
-import 'package:zippied_app/utiles/color.dart';
+import 'package:zippied_app/screen/home/components/banner.dart';
+import 'package:zippied_app/providers/address_provider.dart';
+import 'package:zippied_app/providers/wallet_provider.dart';
+import 'package:zippied_app/component/msgSection.dart';
 import 'package:zippied_app/widget/size_box.dart';
+import 'package:zippied_app/utiles/color.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
